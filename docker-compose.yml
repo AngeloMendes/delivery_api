@@ -1,0 +1,44 @@
+version: '3.7'
+services:
+  db:
+    image: postgres:11
+    environment:
+      - "POSTGRES_HOST_AUTH_METHOD=trust"
+      - "POSTGRES_USER=$DB_USER"
+      - "POSTGRES_PASSWORD=$DB_PASSWORD"
+      - "POSTGRES_DB=$DB_NAME"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    ports:
+      - "${DB_PORT}:${DB_PORT}"
+    networks:
+      - djangonetwork
+  web:
+    build: .
+    command: ["./run_web.sh"]
+    environment:
+      - DEBUG
+      - SECRET_KEY
+      - ALLOWED_HOSTS
+      - DB_USER
+      - DB_PASSWORD
+      - DB_NAME
+      - DB_PORT
+      - DB_HOST
+    volumes:
+      - .:/delivery_api
+    ports:
+      - "8000:8000"
+    links:
+      - "db:${DB_HOST}"
+    depends_on:
+      - db
+    networks:
+      - djangonetwork
+
+networks:
+  djangonetwork:
+    driver: bridge
+
+volumes:
+  postgres_data:
