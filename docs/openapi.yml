@@ -1,0 +1,570 @@
+openapi: 3.0.1
+info:
+  description: API for the Entrega Compartilhada service
+  title: Entrega Compartilhada
+  version: 1.0.0
+servers:
+- description: Developer server
+  url: http://localhost:8000
+tags:
+- description: Operations related to products
+  name: product
+- description: Operations related to orders
+  name: order
+- description: Operations related to routes
+  name: route
+- description: Operations related to sellers
+  name: seller
+paths:
+  /products:
+    get:
+      operationId: get_products
+      parameters:
+      - description: '''Authorization'' header with value ''Bearer <access_token>'''
+        in: header
+        name: Authorization
+        required: true
+        schema:
+          default: Bearer <access_token>
+          type: string
+      - in: query
+        name: page
+        schema:
+          default: 0
+          type: integer
+      - in: query
+        name: per_page
+        schema:
+          default: 15
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListProduct'
+          description: All products
+        '403':
+          content: {}
+          description: User unauthorized
+      summary: Listar produtos disponíveis à venda
+      tags:
+      - product
+    post:
+      operationId: post_product
+      parameters:
+      - description: '''Authorization'' header with value ''Bearer <access_token>'''
+        in: header
+        name: Authorization
+        required: true
+        schema:
+          default: Bearer <access_token>
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+          description: Create product with success
+        '400':
+          content: {}
+          description: Input payload validation failed
+        '403':
+          content: {}
+          description: User unauthorized
+        '409':
+          content: {}
+          description: Product already exists
+      summary: Cadastrar produto
+      tags:
+      - product
+  /products/{id}:
+    get:
+      operationId: get_product
+      parameters:
+      - description: '''Authorization'' header with value ''Bearer <access_token>'''
+        in: header
+        name: Authorization
+        required: true
+        schema:
+          default: Bearer <access_token>
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+          description: One product
+        '403':
+          content: {}
+          description: User unauthorized
+        '404':
+          content: {}
+          description: Product not found
+      summary: Listar um produto detalhadamente
+      tags:
+      - product
+  /sellers:
+    post:
+      operationId: post_seller
+      parameters:
+      - description: '''Authorization'' header with value ''Bearer <access_token>'''
+        in: header
+        name: Authorization
+        required: true
+        schema:
+          default: Bearer <access_token>
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Seller'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Seller'
+          description: Create seller with success
+        '400':
+          content: {}
+          description: Input payload validation failed
+        '403':
+          content: {}
+          description: User unauthorized
+        '409':
+          content: {}
+          description: Seller already exists
+      summary: Cadastrar vendedor
+      tags:
+      - seller
+    get:
+      operationId: get_sellers
+      parameters:
+      - description: '''Authorization'' header with value ''Bearer <access_token>'''
+        in: header
+        name: Authorization
+        required: true
+        schema:
+          default: Bearer <access_token>
+          type: string
+      - in: query
+        name: page
+        schema:
+          default: 0
+          type: integer
+      - in: query
+        name: per_page
+        schema:
+          default: 15
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListSeller'
+          description: All sellers
+        '403':
+          content: {}
+          description: User unauthorized
+      summary: Listar vendedores
+      tags:
+      - seller
+  /sellers/{id}:
+    get:
+      operationId: get_seller
+      parameters:
+      - description: '''Authorization'' header with value ''Bearer <access_token>'''
+        in: header
+        name: Authorization
+        required: true
+        schema:
+          default: Bearer <access_token>
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Seller'
+          description: One seller
+        '403':
+          content: {}
+          description: User unauthorized
+        '404':
+          content: {}
+          description: Seller not found
+      summary: Listar um vendedor detalhadamente
+      tags:
+      - seller
+  /orders:
+    post:
+      operationId: post_order
+      parameters:
+      - description: '''Authorization'' header with value ''Bearer <access_token>'''
+        in: header
+        name: Authorization
+        required: true
+        schema:
+          default: Bearer <access_token>
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+          description: Create order with success
+        '400':
+          content: {}
+          description: Input payload validation failed
+        '403':
+          content: {}
+          description: User unauthorized
+      summary: Cadastrar pedido
+      tags:
+      - order
+    get:
+      operationId: get_orders
+      parameters:
+      - description: '''Authorization'' header with value ''Bearer <access_token>'''
+        in: header
+        name: Authorization
+        required: true
+        schema:
+          default: Bearer <access_token>
+          type: string
+      - in: query
+        name: page
+        schema:
+          default: 0
+          type: integer
+      - in: query
+        name: per_page
+        schema:
+          default: 15
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListOrder'
+          description: All orders
+        '403':
+          content: {}
+          description: User unauthorized
+      summary: Listar pedidos realizados
+      tags:
+      - order
+  /orders/{id}:
+    get:
+      operationId: get_order
+      parameters:
+      - description: '''Authorization'' header with value ''Bearer <access_token>'''
+        in: header
+        name: Authorization
+        required: true
+        schema:
+          default: Bearer <access_token>
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+          description: One order
+        '403':
+          content: {}
+          description: User unauthorized
+        '404':
+          content: {}
+          description: Order not found
+      summary: Listar um pedido detalhadamente
+      tags:
+      - order
+  /routes:
+    post:
+      operationId: post_route
+      parameters:
+      - description: '''Authorization'' header with value ''Bearer <access_token>'''
+        in: header
+        name: Authorization
+        required: true
+        schema:
+          default: Bearer <access_token>
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Route'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Route'
+          description: Create route with success
+        '400':
+          content: {}
+          description: Input payload validation failed
+        '403':
+          content: {}
+          description: User unauthorized
+      summary: Cadastrar rota de entrega e coleta
+      tags:
+      - route
+    get:
+      operationId: get_routes
+      parameters:
+      - description: '''Authorization'' header with value ''Bearer <access_token>'''
+        in: header
+        name: Authorization
+        required: true
+        schema:
+          default: Bearer <access_token>
+          type: string
+      - in: query
+        name: page
+        schema:
+          default: 0
+          type: integer
+      - in: query
+        name: per_page
+        schema:
+          default: 15
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListRoute'
+          description: All routes
+        '403':
+          content: {}
+          description: User unauthorized
+      summary: Listar rotas de entregas
+      tags:
+      - route
+  /routes/{id}:
+    get:
+      operationId: get_route
+      parameters:
+      - description: '''Authorization'' header with value ''Bearer <access_token>'''
+        in: header
+        name: Authorization
+        required: true
+        schema:
+          default: Bearer <access_token>
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Route'
+          description: One route
+        '403':
+          content: {}
+          description: User unauthorized
+        '404':
+          content: {}
+          description: Route not found
+      summary: Listar uma rota de entrega detalhadamente
+      tags:
+      - route
+
+components:
+  schemas:
+      Product:
+        properties:
+          name:
+            example: name
+            type: string
+          image:
+            example: base64 string
+            type: string
+          volume:
+            example: 1
+            type: string
+          risk:
+            example: Low
+            type: string
+          price:
+            example: 0.0
+            type: number
+        required:
+        - name
+        - image
+        - price
+        type: object
+      ListProduct:
+        properties:
+          products:
+            type: array
+            items:
+              $ref: '#/components/schemas/Product'
+      Seller:
+        properties:
+          name:
+            example: name
+            type: string
+          document:
+            example: 12345678910
+            type: string
+          score:
+            example: 10
+            type: number
+          address:
+            $ref: '#/components/schemas/Address'
+            type: object
+        required:
+        - name
+        - document
+        - score
+        - address
+        type: object
+      ListSeller:
+        properties:
+          sellers:
+            type: array
+            items:
+              $ref: '#/components/schemas/Seller'
+      Address:
+        properties:
+          street:
+            example: street
+            type: string
+          postal_code:
+            example: 12345678910
+            type: string
+          number:
+            example: 10
+            type: string
+          state:
+            example: sp
+            type: string
+          neighborhood:
+            example: sp
+            type: string
+          reference:
+            example: reference
+            type: string
+        required:
+        - street
+        - postal_code
+        - number
+        - state
+        - neighborhood
+        type: object
+      Route:
+        properties:
+          collected_at:
+            example: '2020-07-07 12:12:12'
+            type: string
+          status:
+            example: 'em espera'
+            type: string
+          order:
+            $ref: '#/components/schemas/Order'
+            type: object
+          deliveryman:
+            $ref: '#/components/schemas/Seller'
+            type: object
+          address:
+            $ref: '#/components/schemas/Address'
+            type: object
+        required:
+        - order
+        - deliveryman
+        - address
+        type: object
+      ListRoute:
+        properties:
+          routes:
+            type: array
+            items:
+              $ref: '#/components/schemas/Route'
+      Order:
+        properties:
+          collect_at:
+            example: '2020-07-07 12:12:12'
+            type: string
+          status:
+            example: 'entregue'
+            type: string
+          delivery_at:
+            example: '2020-07-07 12:12:12'
+            type: string
+          seller:
+            $ref: '#/components/schemas/Seller'
+            type: object
+          product:
+            $ref: '#/components/schemas/Product'
+            type: object
+          origin_address:
+            $ref: '#/components/schemas/Address'
+            type: object
+          destination_address:
+            $ref: '#/components/schemas/Address'
+            type: object
+        required:
+        - seller
+        - product
+        - origin_address
+        - destination_address
+        type: object
+      ListOrder:
+        properties:
+          orders:
+            items:
+              $ref: '#/components/schemas/Order'
+            type: array
+  securitySchemes:
+    bearerAuth:
+      bearerFormat: JWT
+      scheme: bearer
+      type: http
+security:
+- bearerAuth: []
