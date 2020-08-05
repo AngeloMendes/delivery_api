@@ -13,6 +13,7 @@ django-rest-swagger = "*"
 django-coreapi = "*"
 pyyaml = "*"
 dj-database-url = "*"
+geopy = "*"
 
 [requires]
 python_version = "3.8"

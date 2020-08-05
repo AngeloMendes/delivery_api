@@ -14,7 +14,7 @@ class Order(models.Model):
     created_at = models.DateTimeField(default=datetime.now, blank=False)
     collect_at = models.DateTimeField(blank=True)
     delivery_at = models.DateTimeField(blank=True)
-    status = models.CharField(max_length=500)
+    status = models.CharField(max_length=500, default="Disponível")
 
     seller = models.ForeignKey(Seller, on_delete=models.DO_NOTHING)
     product = models.ForeignKey(Product, on_delete=models.DO_NOTHING)

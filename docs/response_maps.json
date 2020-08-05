@@ -1,0 +1,33 @@
+{
+  "status": "OK",
+  "routes": [ {
+    "summary": "I-40 W",
+    "legs": [ {
+      "steps": [
+        {
+          "travel_mode": "DRIVING",
+          "start_location": {
+            "lat": 41.8507300,
+            "lng": -87.6512600
+          },
+          "end_location": {
+            "lat": 41.8525800,
+            "lng": -87.6514100
+          },
+          "duration": {
+            "value": 19,
+            "text": "1 min"
+          },
+          "html_instructions": "Head \u003cb\u003enorth\u003c/b\u003e on \u003cb\u003eS Morgan St\u003c/b\u003e toward \u003cb\u003eW Cermak Rd\u003c/b\u003e",
+          "distance": {
+            "value": 207,
+            "text": "0.1 mi"
+          },
+          "start_address": "Oklahoma City, OK, USA",
+          "end_address": "Los Angeles, CA, USA"
+        }]
+    } ],
+    "copyrights": "Map data ©2020 Google, Sanborn"
+
+  }]
+}

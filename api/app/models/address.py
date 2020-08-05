@@ -1,6 +1,6 @@
 from django.db import models
 from django.db import transaction, IntegrityError
-
+import geopy.distance
 
 class Address(models.Model):
     class Meta:
@@ -13,8 +13,10 @@ class Address(models.Model):
     state = models.CharField(max_length=500)
     neighborhood = models.CharField(max_length=500)
     reference = models.CharField(max_length=500)
+    latitude = models.FloatField()
+    longitude = models.FloatField()
 
-    def __init__(self, street, postal_code, number, state, neighborhood, reference, *args, **kwargs):
+    def __init__(self, street, postal_code, number, state, neighborhood, reference, latitude, longitude, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.street = street
         self.postal_code = postal_code
@@ -22,6 +24,8 @@ class Address(models.Model):
         self.state = state
         self.neighborhood = neighborhood
         self.reference = reference
+        self.latitude = latitude
+        self.longitude = longitude
 
     def save(self, *args, **kwargs):
         try:
@@ -38,3 +42,12 @@ class Address(models.Model):
     @classmethod
     def find_all(cls, filters: dict):
         return cls.objects.all().filter(**filters)
+
+    @staticmethod
+    def calc_distance(origin: tuple, destination: tuple):
+        """
+        :param origin: a tuple with origin coordinates. Ex. (12.3456, 12.789)
+        :param destination: a tuple with destination coordinates. Ex. (12.3456, 12.789)
+        :return: distance between two coordinates in km
+        """
+        return geopy.distance.vicenty(origin, destination).km

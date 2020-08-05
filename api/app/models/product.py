@@ -8,15 +8,13 @@ class Product(models.Model):
     name = models.CharField(max_length=500)
     volume = models.TextField()
     image = models.TextField()
-    risk = models.TextField()
     price = models.FloatField()
 
-    def __init__(self, name, volume, image, risk, price, *args, **kwargs):
+    def __init__(self, name, volume, image, price, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.name = name
         self.volume = volume
         self.image = image
-        self.risk = risk
         self.price = price
 
     def __str__(self):
